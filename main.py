@@ -54,12 +54,10 @@ sleep(0.5)
 driver.execute_script("location.reload()")  # 刷新数据
 
 item = driver.find_elements(by=By.CSS_SELECTOR, value="[type=\"button\"]")
-for i in range(config.start, config.end):
+system("echo "+config.ID_number+" | clip")  # 复制身份证号到剪贴板
+for i in range(config.start, config.end + config.step, config.step):
     # 在指定范围内找到第一个能点的
-    if "https://jj.gaj.ningbo.gov.cn/jtyyxt/images/btn_buke.gif" \
-            not in item[i].get_attribute("style"):
+    if item[i].get_attribute("onclick"):
         item[i].location_once_scrolled_into_view  # 移动屏幕到那个按钮
         item[i].click()  # 点击
-        system("echo "+config.ID_number+" | clip")  # 复制身份证号到剪贴板
         break
-    print(i)
